@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+      <title>Brain</title>
+
+      <meta name="description" content="Assignment 3 - Heart vs Brain">
+
+      <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+
+      <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+
+      <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@fb96ab2/dist/aframe-extras.min.js"></script>
+
+      <script src="js/button_interaction.js"></script>
+
+    </head>
+
+    <body>
+
+      <!-- A-Frame Scene -->
+      <a-scene>
+
+        <!-- Camera -->
+        <a-entity movement-controls="constrainToNavMesh:true; speed:0.4">
+            <a-entity camera look-controls position="0 2 0"></a-entity>
+            <a-entity cursor="rayOrigin:mouse;" 
+                      raycaster="far:6; interval:30; objects:.interactive;">
+            </a-entity>
+            <a-entity laser-controls="hand:left" raycaster="objects:.interactive; far: 6"></a-entity>
+            <a-entity laser-controls="hand:right" raycaster="objects:.interactive; far: 6"></a-entity>
+        </a-entity>
+
+        <!-- Lights -->
+        <a-entity class="light"
+                  light="type:point; castShadow:true; shadowBias:-0.0005; angle:0; penumbra:0.3; intensity:0.5;"
+                  position="-4 4 0">
+        </a-entity>
+        <a-entity class="light"
+                  light="type:point; castShadow:true; shadowBias:-0.0005; angle:0; penumbra:0.3; intensity:0.5;"
+                  position="4 4 0">
+        </a-entity>
+
+        <!-- Navmesh -->
+        
+
+        <!-- Room (Padding) -->
+        <a-entity id="room">
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-6.5 4 -5.3"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-4.8 4 -5.3"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-3.1 4 -5.3"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-1.5 4 -5.3"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="6.7 4 -5.3"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="5 4 -5.3"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="3.4 4 -5.3"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="1.8 4 -5.3"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="0.13 4 -5.3"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-7.8 4 3.8" rotation="0 -90 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-7.8 4 2.1" rotation="0 -90 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-7.8 4 0.4" rotation="0 -90 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-7.8 4 -1.3" rotation="0 -90 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-7.8 4 -2.9" rotation="0 -90 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-7.8 4 -4.5" rotation="0 -90 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-7.4 4 5.2" rotation="0 -180 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-7.4 4 5.2" rotation="0 -180 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-5.8 4 5.3" rotation="0 -180 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="7.1 4 5.3" rotation="0 -180 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="5.5 4 5.3" rotation="0 -180 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="3.9 4 5.3" rotation="0 -180 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="2.3 4 5.3" rotation="0 -180 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="0.64 4 5.3" rotation="0 -180 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-1 4 5.3" rotation="0 -180 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-2.6 4 5.3" rotation="0 -180 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-4.2 4 5.3" rotation="0 -180 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="7.6 4 4.1" rotation="0 -270 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="7.6 4 -4.4" rotation="0 -270 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="7.6 4 -2.8" rotation="0 -270 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="7.6 4 -1.1" rotation="0 -270 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="7.6 4 0.6" rotation="0 -270 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="7.6 4 2.3" rotation="0 -270 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-7.3 -0.4 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="7.3 -0.4 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="5.9 -0.4 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="4.6 -0.4 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="3.3 -0.4 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="2.0 -0.4 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="0.7 -0.4 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-0.6 -0.4 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-1.9 -0.4 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-3.2 -0.4 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-4.6 -0.4 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-6.0 -0.4 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-7.3 8.3 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="7.3 8.3 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="5.9 8.3 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="4.6 8.3 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="3.3 8.3 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="2.0 8.3 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="0.7 8.3 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-0.6 8.3 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-1.9 8.3 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-3.2 8.3 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-4.6 8.3 0" rotation="-90 0 0"></a-entity>
+          <a-entity geometry="primitive:sphere" material="color:#fff8fc; roughness:1" scale="1 12.55 0.7" position="-6.0 8.3 0" rotation="-90 0 0"></a-entity>
+        </a-entity>
+
+        <!-- Instruction Screen 1 (left) -->
+        <a-entity position="0.04 0 0">
+          <a-entity position="-3.4 4.4 -5" 
+                  geometry="height: 3.7; width: 6" 
+                  material="color:#383838; roughness:1">
+          </a-entity>
+          <!-- Instruction Text -->
+          <a-entity text="value:Welcome to the Brain! Your job is to neutralize the reactions of the heart.;
+                          font:dejavu; lineHeight:60; align:center; width:5; wrapCount:55" 
+                    position="-3.4 5.6 -4.5">
+          </a-entity>
+          <a-entity text="value:Press the middle grey button together with the heart to generate a senerio. The heart will then attempt to react to it. Your job is to undo any reaction the heart may have by the end of the time period (5 seconds)!;
+                          font:dejavu; lineHeight:60; width:5; wrapCount:55" 
+                    position="-3.4 4.5 -4.5">
+          </a-entity>
+          <a-entity text="value:Green = Envy;
+                          font:dejavu; lineHeight:60; width:5; wrapCount:55" 
+                    position="-3.4 3.55 -4.5">
+          </a-entity>
+          <a-entity text="value:Yellow = Happy;
+                          font:dejavu; lineHeight:60; width:5; wrapCount:55" 
+                    position="-3.4 3.2 -4.5">
+          </a-entity>
+          <a-entity text="value:Red = Angry;
+                          font:dejavu; lineHeight:60; width:5; wrapCount:55" 
+                    position="-1.1 3.55 -4.5">
+          </a-entity>
+          <a-entity text="value:Blue = Sad;
+                          font:dejavu; lineHeight:60; width:5; wrapCount:55" 
+                    position="-1.1 3.2 -4.5">
+          </a-entity>
+        </a-entity>
+
+         <!-- Instruction Screen 2 (right) -->
+         <a-entity position="-0.04 0 0">
+          <a-entity position="3.4 4.4 -5" 
+                    geometry="height: 3.7; width: 6" 
+                    material="color:#383838; roughness:1">
+            </a-entity>
+            <a-entity text="value:Scenario:;
+                          font:dejavu; lineHeight:60; align:center; width:5; wrapCount:55" 
+                    position="3.4 5.8 -4.5">
+            </a-entity>
+            <!-- Ready Text (Both heart and brain sides need to be ready to generate a senerio) -->
+            <a-entity id="heartReady"
+                      text="value:Heart Ready;
+                            font:dejavu; lineHeight:60; align:center; width:5; wrapCount:55; color:#707070" 
+                      position="2.4 5.37 -4.5"
+                      visible="true">
+            </a-entity>
+            <a-entity id="brainReady"
+                      text="value:Brain Ready;
+                            font:dejavu; lineHeight:60; align:center; width:5; wrapCount:55; color:#707070" 
+                      position="4.4 5.37 -4.5"
+                      visible="true">
+            </a-entity>
+            <!-- Senerio Text -->
+            <a-entity id="scenario"
+                      text="value:;
+                            font:dejavu; lineHeight:60; align:center; width:5; wrapCount:55" 
+                      position="3.4 5.37 -4.5"
+                      visible="false">
+            </a-entity>
+            <!-- Reaction Text -->
+            <a-entity text="value:Heart Reaction:;
+                          font:dejavu; lineHeight:60; align:center; width:5; wrapCount:55" 
+                      position="3.4 4.75 -4.5">
+            </a-entity>
+            <a-entity id="envyReaction"
+                      text="value:Envious;
+                            font:dejavu; lineHeight:60; align:center; width:5; wrapCount:55; color:#707070" 
+                      position="2.4 4.325 -4.5">
+            </a-entity>
+            <a-entity id="happyReaction"
+                      text="value:Happy;
+                            font:dejavu; lineHeight:60; align:center; width:5; wrapCount:55; color:#707070" 
+                      position="2.4 3.81 -4.5">
+            </a-entity>
+            <a-entity id="angryReaction"
+                      text="value:Angry;
+                            font:dejavu; lineHeight:60; align:center; width:5; wrapCount:55; color:#707070" 
+                      position="4.4 4.325 -4.5">
+            </a-entity>
+            <a-entity id="sadReaction"
+                      text="value:Sad;
+                            font:dejavu; lineHeight:60; align:center; width:5; wrapCount:55; color:#707070" 
+                      position="4.4 3.81 -4.5">
+            </a-entity>
+            <!-- Winner Text -->
+            <a-entity id='winnerText'
+                      text="value:;
+                            font:dejavu; lineHeight:60; align:center; width:5; wrapCount:55" 
+                      position="3.4 3.4 -4.5"
+                      visible="false">
+            </a-entity>
+            <!-- Timer Text -->
+            <a-entity id="timer"
+                      text="value: 00.00; 
+                            font: dejavu; lineHeight: 60; align: center; width: 5; wrapCount: 55" 
+                      position="3.4 3.4 -4.5"
+                      visible="false">
+            </a-entity>
+          </a-entity>
+
+        <!-- Emotion Buttons -->
+        <a-entity>
+          <a-entity id="envyButton"
+                    class="interactive"
+                    geometry="primitive:cylinder; radius:0.3" 
+                    rotation="90 0 0" 
+                    material="color:#c4f9c3"
+                    position="0 1.4 -4.9"
+                    button_interaction="type:envy"
+                    animation__down="property:position; to:0 1.4 -5.050; from:0 1.4 -4.9; dur:150; enabled:false"
+                    animation__up="property:position; to:0 1.4 -4.9; from:0 1.4 -5.05; dur:150; enabled:false">
+          </a-entity>
+
+          <a-entity id="sadButton"
+                    class="interactive"
+                    geometry="primitive:cylinder; radius:0.3" 
+                    rotation="90 0 0" 
+                    material="color:#c3ccf9"
+                    position="0 1.4 4.9"
+                    button_interaction="type:sad"
+                    animation__down="property:position; to:0 1.4 5.050; from:0 1.4 4.9; dur:150; enabled:false"
+                    animation__up="property:position; to:0 1.4 4.9; from:0 1.4 5.05; dur:150; enabled:false">
+          </a-entity>
+
+          <a-entity id="angryButton"
+                    class="interactive"
+                    geometry="primitive:cylinder; radius:0.3" 
+                    rotation="90 0 90" 
+                    material="color:#f9c3c3"
+                    position="7.2 1.4 0"
+                    button_interaction="type:angry"
+                    animation__down="property:position; to:7.35 1.4 0; from:7.2 1.4 0; dur:150; enabled:false"
+                    animation__up="property:position; to:7.2 1.4 0; from:7.35 1.4 0; dur:150; enabled:false">
+          </a-entity>
+
+          <a-entity id="happyButton"
+                    class="interactive"
+                    geometry="primitive:cylinder; radius:0.3" 
+                    rotation="90 0 90" 
+                    material="color:#f4fea4"
+                    position="-7.2 1.4 0"
+                    button_interaction="type:happy"
+                    animation__down="property:position; to:-7.35 1.4 0; from:-7.2 1.4 0; dur:150; enabled:false"
+                    animation__up="property:position; to:-7.2 1.4 0; from:-7.35 1.4 0; dur:150; enabled:false">
+          </a-entity>
+        </a-entity>
+
+        <!-- Generate Button -->
+        <a-entity>
+          <a-entity geometry="primitive:box" 
+                    position="0 0.7 0" 
+                    material="color:#fff8fc">
+          </a-entity>
+          <a-entity id="generateButton"
+                    class="interactive"
+                    geometry="primitive:cylinder; radius:0.3" 
+                    material="color:#fff8fc"
+                    position="0 0.86 0"
+                    animation__mouseenter="property:material.color; type:color; to:#c1c1c1; startEvents:mouseenter; dur:0"
+                    animation__mouseleave="property:material.color; type:color; to:#fff8fc; startEvents:mouseleave; dur:0"
+                    animation__click="property:position.y; to:0.77; from:0.86; startEvents:click; dur:150; dir:alternate; loop: 2">
+          </a-entity>
+        </a-entity>
+
+        <!-- Socket.io -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            let socket = io();
+
+            socket.on('connect', (userData) => 
+            {
+                // Variable that keeps track if the brain user is ready for a scenerio generation
+                var brainReady = false;
+
+                // Variable that keeps track if envy reaction is active
+                var envyActive = false;
+
+                // Variable that keeps track if happy reaction is active
+                var happyActive = false;
+
+                // Variable that keeps track if angry reaction is active
+                var angryActive = false;
+
+                // Variable that keeps track if sad reaction is active
+                var sadActive = false;
+
+                // Event listeners ----------------------------------------------------------------------------------------------------
+
+                // When the generate button is clicked (for scenario generation)
+                // Update the corresponding text colour and emit a brainReady event
+                document.querySelector('#generateButton').addEventListener('click', function()
+                {
+                  // If the heart user was previously not ready, put them as ready
+                  // Emit to server that brain is ready
+                    if (brainReady === false)
+                    {
+                        brainReady = true;
+
+                        document.querySelector('#brainReady').setAttribute('text', {color: '#ffffff'});
+
+                        socket.emit('brainReady', {ready:true});
+                    }
+                    // If the heart user was previously ready, put them as not ready
+                    // Emit to server that brain is not ready
+                    else
+                    {
+                        brainReady = false;
+
+                        document.querySelector('#brainReady').setAttribute('text', {color: '#707070'});
+
+                        socket.emit('brainReady', {ready:false});
+                    }       
+                });
+
+                // ----------------------------------
+
+                // When the envy button is clicked, update the button style and emit a envy event
+                document.querySelector('#envyButton').addEventListener('click', function()
+                {
+                    // If the envy button was not active, activate it
+                    // Emit to server that envy is active
+                    if (envyActive === false)
+                    {
+                        envyActive = true;
+
+                        document.querySelector('#envyButton').setAttribute('button_interaction', {changed: true, clicked: true});
+
+                        socket.emit('envy', {active:true});
+                    }
+                    // If the envy button was active, deactivate it
+                    // Emit to server that envy is not active
+                    else
+                    {
+                        envyActive = false;
+
+                        document.querySelector('#envyButton').setAttribute('button_interaction', {changed: true, clicked: false});
+
+                        socket.emit('envy', {active:false});
+                    }       
+                });
+
+                // ----------------------------------
+
+                // When the happy button is clicked, update the button style and emit a happy event
+                document.querySelector('#happyButton').addEventListener('click', function()
+                {
+                    // If the happy button was not active, activate it
+                    // Emit to server that happy is active
+                    if (happyActive === false)
+                    {
+                        happyActive = true;
+
+                        document.querySelector('#happyButton').setAttribute('button_interaction', {changed: true, clicked: true});
+
+                        socket.emit('happy', {active:true});
+                    }
+                    // If the happy button was active, deactivate it
+                    // Emit to server that happy is not active
+                    else
+                    {
+                        happyActive = false;
+
+                        document.querySelector('#happyButton').setAttribute('button_interaction', {changed: true, clicked: false});
+
+                        socket.emit('happy', {active:false});
+                    }       
+                });
+
+                // ----------------------------------
+
+                // When the angry button is clicked, update the button style and emit a angry event
+                document.querySelector('#angryButton').addEventListener('click', function()
+                {
+                    // If the angry button was not active, activate it
+                    // Emit to server that angry is active
+                    if (angryActive === false)
+                    {
+                        angryActive = true;
+
+                        document.querySelector('#angryButton').setAttribute('button_interaction', {changed: true, clicked: true});
+
+                        socket.emit('angry', {active:true});
+                    }
+                    // If the angry button was active, deactivate it
+                    // Emit to server that angry is not active
+                    else
+                    {
+                        angryActive = false;
+
+                        document.querySelector('#angryButton').setAttribute('button_interaction', {changed: true, clicked: false});
+
+                        socket.emit('angry', {active:false});
+                    }       
+                });
+
+                // ----------------------------------
+
+                // When the sad button is clicked, update the button style and emit a sad event
+                document.querySelector('#sadButton').addEventListener('click', function()
+                {
+                  // If the sad button was not active, activate it
+                  // Emit to server that sad is active
+                  if (sadActive === false)
+                    {
+                        sadActive = true;
+
+                        document.querySelector('#sadButton').setAttribute('button_interaction', {changed: true, clicked: true});
+
+                        socket.emit('sad', {active:true});
+                    }
+                    // If the sad button was active, deactivate it
+                    // Emit to server that sad is not active
+                    else
+                    {
+                        sadActive = false;
+
+                        document.querySelector('#sadButton').setAttribute('button_interaction', {changed: true, clicked: false});
+
+                        socket.emit('sad', {active:false});
+                    }       
+                });
+
+                // Listening for emit events ------------------------------------------------------------------------------------------
+
+                // Listening for a heartReady event to update the corresponding text colour
+                socket.on('heartReady', (data) =>
+                {
+                  // If the heart is not ready
+                  if (data.ready === false)
+                  {
+                        document.querySelector('#heartReady').setAttribute('text', {color: '#707070'});
+                  }
+                  // If the heart is ready
+                  else
+                  {
+                        document.querySelector('#heartReady').setAttribute('text', {color: '#ffffff'});
+                  }
+                });
+
+                // ----------------------------------
+
+                // Listening for a scenario event to begin a scenario round
+                socket.on('scenario', (data) =>
+                {
+                  // Resetting the colour of lights to white
+                  var lights = document.querySelectorAll('.light');
+
+                  for (let i = 0; i < lights.length; i++)
+                  {
+                        lights[i].setAttribute('light', {color: '#FFFFFF'});
+                  }
+
+                  // Setting the winner text to be invisible
+                  document.querySelector('#winnerText').setAttribute('visible', false);
+                  
+                  // Setting the ready texts to be invisible
+                  document.querySelector('#heartReady').setAttribute('visible', false);
+                  document.querySelector('#brainReady').setAttribute('visible', false);
+
+                  // Setting the scenario text to be visible and updating it to the current scenario
+                  document.querySelector('#scenario').setAttribute('visible', true);
+                  document.querySelector('#scenario').setAttribute('text', {value: data.text});
+
+                  // Setting the timer text to be visible
+                  document.querySelector('#timer').setAttribute('visible', true);
+                  document.querySelector('#timer').setAttribute('text', {value: '5.00'});
+                });
+
+                // ----------------------------------
+
+                // Listening for the timer event to update the time remaining on the round timer
+                socket.on('timer', (data) => 
+                {
+                  document.querySelector('#timer').setAttribute('text', {value: data.time});
+                });
+
+                // ----------------------------------
+
+                // Listening for the winner event to announce the winner to the user and reset game for the next round
+                socket.on('winner', (data) => 
+                {
+                  // Resetting the ready texts
+                  document.querySelector('#heartReady').setAttribute('visible', true);
+                  document.querySelector('#brainReady').setAttribute('visible', true);
+
+                  document.querySelector('#brainReady').setAttribute('text', {color: '#707070'});
+                  brainReady = false;
+
+                  // Setting the scenario text to be invisible
+                  document.querySelector('#scenario').setAttribute('visible', false);
+
+                  // Setting the timer text to be invisible
+                  document.querySelector('#timer').setAttribute('visible', false);
+
+                  // Setting the winner text to be visible and display the round winner
+                  document.querySelector('#winnerText').setAttribute('visible', true);
+                  document.querySelector('#winnerText').setAttribute('text', {value: data.user + " Won!"});
+
+                  // If brain won, setting lights to be green
+                  // If brain lost, setting lights to be red
+                  
+                  var lights = document.querySelectorAll('.light');
+
+                  if (data.user === 'Brain')
+                  {
+                        for (let i = 0; i < lights.length; i++)
+                        {
+                              lights[i].setAttribute('light', {color: '#78ff75'});
+                        }
+                  }
+                  else
+                  {
+                        for (let i = 0; i < lights.length; i++)
+                        {
+                              lights[i].setAttribute('light', {color: '#ff7575'});
+                        }
+                  }
+                });
+
+                // ----------------------------------
+
+                // Listening for the envy event to update if that reaction is active or not
+                socket.on('envy', (data) => 
+                {
+                  // If the envy reaction is not active
+                  if (data.active === false)
+                  {
+                        envyActive = false;
+
+                        document.querySelector('#envyButton').setAttribute('button_interaction', {changed: true, clicked: false});
+                  }
+                  // If the envy reaction is active
+                  else
+                  {
+                        envyActive = true;
+
+                        document.querySelector('#envyButton').setAttribute('button_interaction', {changed: true, clicked: true});
+                  }
+                });
+
+                // ----------------------------------
+
+                // Listening for the happy event to update if that reaction is active or not
+                socket.on('happy', (data) => 
+                {
+                  // If the happy reaction is not active
+                  if (data.active === false)
+                  {
+                        happyActive = false;
+
+                        document.querySelector('#happyButton').setAttribute('button_interaction', {changed: true, clicked: false});
+                  }
+                  // If the happy reaction is active
+                  else
+                  {
+                        happyActive = true;
+
+                        document.querySelector('#happyButton').setAttribute('button_interaction', {changed: true, clicked: true});
+                  }
+                });
+
+                // ----------------------------------
+
+                // Listening for the angry event to update if that reaction is active or not
+                socket.on('angry', (data) => 
+                {
+                  // If the angry reaction is not active
+                  if (data.active === false)
+                  {
+                        angryActive = false;
+
+                        document.querySelector('#angryButton').setAttribute('button_interaction', {changed: true, clicked: false});
+                  }
+                  // If the angry reaction is active
+                  else
+                  {
+                        angryActive = true;
+
+                        document.querySelector('#angryButton').setAttribute('button_interaction', {changed: true, clicked: true});
+                  }
+                });
+
+                // ----------------------------------
+
+                // Listening for the sad event to update if that reaction is active or not
+                socket.on('sad', (data) => 
+                {
+                  // If the sad reaction is not active
+                  if (data.active === false)
+                  {
+                        sadActive = false;
+
+                        document.querySelector('#sadButton').setAttribute('button_interaction', {changed: true, clicked: false});
+                  }
+                  // If the sad reaction is active
+                  else
+                  {
+                        sadActive = true;
+
+                        document.querySelector('#sadButton').setAttribute('button_interaction', {changed: true, clicked: true});
+                  }
+                });
+            });
+        </script>
+      </a-scene>
+    </body>
+
+</html>

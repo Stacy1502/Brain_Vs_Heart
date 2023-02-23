@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+      <title>Heart</title>
+
+      <meta name="description" content="Assignment 3 - Heart vs Brain">
+
+      <link rel="stylesheet" href="css/heartScreen.css">
+
+    </head>
+
+    <body>
+        <!-- Description -->
+        <div id="description">
+            <!-- Instructions -->
+            <p style="text-align: center">
+                Welcome to the <b>Heart</b>! Your job is to react to situations the best that you can. 
+            </p>
+
+            <br />
+
+            <p>
+                Press the middle grey button together with the brain to generate a senerio, and press 
+                a coloured button to react to it within the time period (you can only have one reaction 
+                at a time). But the trick is, the brain will attempt to neutralize and undo your reaction. 
+                Get your reaction through within 5 seconds to win the round!
+            </p>
+            <p>
+                <b>Green</b> = Envy
+            </p>
+            <p>
+                <b>Yellow</b> = Happy
+            </p>
+            <p>
+                <b>Red</b> = Angry
+            </p>
+            <p>
+                <b>Blue</b> = Sad
+            </p>
+
+            <!-- Senerio -->
+            <p style="text-align: center">
+                <b>Scenario:</b>
+            </p>
+
+            <div id="scenario">
+                <p id="scenarioText" style="text-align: center"></p>
+            </div>
+
+            <div id="ready">
+                <p id="heartReady">
+                    Heart Ready
+                </p>
+                <p id="brainReady">
+                    Brain Ready
+                </p>
+            </div>
+
+            <div id="timeContainer">
+                <h2 id="timer" style="text-align: center">00.00</h2>
+            </div>
+
+            <div id="winnerContainer">
+                <h2 id="winnerText" style="text-align: center"></h2>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div id="envyButton">
+            <button id="envy"></button>
+        </div>
+
+        <div id="happyButton">
+            <button id="happy"></button>
+        </div>
+
+        <div id="angryButton">
+            <button id="angry"></button>
+        </div>
+
+        <div id="sadButton">
+            <button id="sad"></button>
+        </div>
+
+        <div id="generateButton">
+            <button id="generate"></button>
+        </div>
+
+        <!-- Socket.io -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            
+            let socket = io();
+
+            socket.on('connect', (userData) => 
+            {
+                // Variable that keeps track if the brain user is ready for a scenerio generation
+                var heartReady = false;
+
+                // Variable that keeps track if envy reaction is active
+                var envyActive = false;
+
+                // Variable that keeps track if happy reaction is active
+                var happyActive = false;
+
+                // Variable that keeps track if angry reaction is active
+                var angryActive = false;
+
+                // Variable that keeps track if sad reaction is active
+                var sadActive = false;
+
+                // Variables that keeps track if there is a reaction active
+                var activeReaction = false;
+
+                // Event listeners ----------------------------------------------------------------------------------------------------
+
+                // When the generate button is clicked (for scenario generation)
+                // Update the corresponding text colour and emit a heartReady event
+                document.querySelector('#generateButton').addEventListener('click', function()
+                {
+                    // If the heart user was previously not ready, put them as ready
+                    // Emit to server that heart is ready
+                    if (heartReady === false)
+                    {
+                        heartReady = true;
+
+                        document.querySelector('#heartReady').style.color = '#4f4f4f';
+
+                        socket.emit('heartReady', {ready:true});
+                    }
+                    // If the heart user was previously ready, put them as not ready
+                    // Emit to server that heart is not ready
+                    else
+                    {
+                        heartReady = false;
+
+                        document.querySelector('#heartReady').style.color = '#4f4f4f5b';
+
+                        socket.emit('heartReady', {ready:false});
+                    }       
+                });
+
+                // ----------------------------------
+
+                // When the envy button is clicked, update the button style and emit a envy event
+                document.querySelector('#envyButton').addEventListener('click', function()
+                {
+                    // If the envy button was not active and there is no active reactions, activate it
+                    // Emit to server that envy is active
+                    if (envyActive === false)
+                    {
+                        if (activeReaction === false)
+                        {
+                            envyActive = true;
+                            activeReaction = true;
+
+                            document.querySelector('#envy').style.backgroundColor = '#a0fb9f';
+                            document.querySelector('#envy').style.boxShadow = '2px 6px #8fb68e';
+                            document.querySelector('#envy').style.transform = 'translateX(3px) translateY(3px)';
+
+                            socket.emit('envy', {active:true});
+                        }
+                    }
+                    // If the envy button was active, deactivate it
+                    // Emit to server that envy is not active
+                    else
+                    {
+                        envyActive = false;
+                        activeReaction = false;
+
+                        document.querySelector('#envy').style.backgroundColor = '#c4f9c3';
+                        document.querySelector('#envy').style.boxShadow = '5px 9px #8fb68e';
+                        document.querySelector('#envy').style.transform = 'translateX(0px) translateY(0px)';
+
+                        socket.emit('envy', {active:false});
+                    }       
+                });
+
+                // ----------------------------------
+
+                // When the happy button is clicked and there is no active reactions, update the button style and emit a happy event
+                document.querySelector('#happyButton').addEventListener('click', function()
+                {
+                    // If the happy button was not active and there is no active reactions, activate it
+                    // Emit to server that happy is active
+                    if (happyActive === false)
+                    {
+                        if (activeReaction === false)
+                        {
+                            happyActive = true;
+                            activeReaction = true;
+
+                            document.querySelector('#happy').style.backgroundColor = '#e7f86d';
+                            document.querySelector('#happy').style.boxShadow = '2px 6px #afb775';
+                            document.querySelector('#happy').style.transform = 'translateX(3px) translateY(3px)';
+
+                            socket.emit('happy', {active:true});
+                        }
+                    }
+                    // If the happy button was active, deactivate it
+                    // Emit to server that happy is not active
+                    else
+                    {
+                        happyActive = false;
+                        activeReaction = false;
+
+                        document.querySelector('#happy').style.backgroundColor = '#f4fea4';
+                        document.querySelector('#happy').style.boxShadow = '5px 9px #afb775';
+                        document.querySelector('#happy').style.transform = 'translateX(0px) translateY(0px)';
+
+                        socket.emit('happy', {active:false});
+                    }       
+                });
+
+                // ----------------------------------
+
+                // When the angry button is clicked, update the button style and emit a angry event
+                document.querySelector('#angryButton').addEventListener('click', function()
+                {
+                    // If the angry button was not active and there is no active reactions, activate it
+                    // Emit to server that angry is active
+                    if (angryActive === false)
+                    {
+                        if (activeReaction === false)
+                        {
+                            angryActive = true;
+                            activeReaction = true;
+
+                            document.querySelector('#angry').style.backgroundColor = '#fda9a9';
+                            document.querySelector('#angry').style.boxShadow = '2px 6px #c29898';
+                            document.querySelector('#angry').style.transform = 'translateX(3px) translateY(3px)';
+
+                            socket.emit('angry', {active:true});
+                        }
+                    }
+                    // If the angry button was active, deactivate it
+                    // Emit to server that angry is not active
+                    else
+                    {
+                        angryActive = false;
+                        activeReaction = false;
+
+                        document.querySelector('#angry').style.backgroundColor = '#f9c3c3';
+                        document.querySelector('#angry').style.boxShadow = '5px 9px #c29898';
+                        document.querySelector('#angry').style.transform = 'translateX(0px) translateY(0px)';
+
+                        socket.emit('angry', {active:false});
+                    }       
+                });
+
+                // ----------------------------------
+
+                // When the sad button is clicked, update the button style and emit a sad event
+                document.querySelector('#sadButton').addEventListener('click', function()
+                {
+                    // If the sad button was not active and there is no active reactions, activate it
+                    // Emit to server that sad is active
+                    if (sadActive === false)
+                    {
+                        if (activeReaction === false)
+                        {
+                            sadActive = true;
+                            activeReaction = true;
+
+                            document.querySelector('#sad').style.backgroundColor = '#a5b2f4';
+                            document.querySelector('#sad').style.boxShadow = '2px 6px #8e95b6';
+                            document.querySelector('#sad').style.transform = 'translateX(3px) translateY(3px)';
+
+                            socket.emit('sad', {active:true});
+                        }
+                    }
+                    // If the sad button was active, deactivate it
+                    // Emit to server that sad is not active
+                    else
+                    {
+                        sadActive = false;
+                        activeReaction = false;
+
+                        document.querySelector('#sad').style.backgroundColor = '#c3ccf9';
+                        document.querySelector('#sad').style.boxShadow = '5px 9px #8e95b6';
+                        document.querySelector('#sad').style.transform = 'translateX(0px) translateY(0px)';
+
+                        socket.emit('sad', {active:false});
+                    }       
+                });
+
+                // Listening for emit events ------------------------------------------------------------------------------------------
+
+                // Listening for a brainReady event to update the corresponding text colour
+                socket.on('brainReady', (data) =>
+                {
+                    // If the brain is not ready
+                    if (data.ready === false)
+                    {
+                        document.querySelector('#brainReady').style.color = '#4f4f4f5b';
+                    }
+                    // If the brain is ready
+                    else
+                    {
+                        document.querySelector('#brainReady').style.color = '#4f4f4f';
+                    }
+                });
+
+                // ----------------------------------
+
+                // Listening for a scenario event to begin a scenario round
+                socket.on('scenario', (data) =>
+                {
+                  // Resetting the page background to white
+                  document.querySelector('body').style.backgroundColor = '#fff8fc';
+
+                  // Setting the winner text to be invisible
+                  document.querySelector('#winnerContainer').style.display = 'none';
+
+                  // Setting the ready texts to be invisible
+                  document.querySelector('#ready').style.display = 'none';
+
+                  // Setting the scenario text to be visible and updating it to the current scenario
+                  document.querySelector('#scenario').style.display = 'block';
+                  document.querySelector('#scenarioText').innerHTML = data.text;
+
+                  // Setting the timer text to be visible
+                  document.querySelector('#timeContainer').style.display = 'block';
+                  document.querySelector('#timer').innerHTML = '5.00';
+                }); 
+
+                // ----------------------------------
+
+                // Listening for the timer event to update the time remaining on the round timer
+                socket.on('timer', (data) => 
+                {
+                  document.querySelector('#timer').innerHTML = data.time;
+                });
+
+                // ----------------------------------
+
+                // Listening for the winner event to announce the winner to the user and reset game for the next round
+                socket.on('winner', (data) => 
+                {
+                  // Resetting the ready texts
+                  document.querySelector('#ready').style.display = 'block';
+
+                  document.querySelector('#heartReady').style.color = '#4f4f4f5b';
+                  heartReady = false;
+
+                  // Setting the scenario text to be invisible
+                  document.querySelector('#scenario').style.display = 'none';
+
+                  // Setting the timer text to be invisible
+                  document.querySelector('#timeContainer').style.display = 'none';
+
+                  // Setting the winner text to be visible and display the round winner
+                  document.querySelector('#winnerContainer').style.display = 'block';
+                  document.querySelector('#winnerText').innerHTML = data.user + " Won!";
+
+                  // If heart won, setting background to be green
+                  // If heart lost, setting background to be red
+
+                  if (data.user === 'Heart')
+                  {
+                    document.querySelector('body').style.backgroundColor = '#e0ffdd';
+                  }
+                  else
+                  {
+                    document.querySelector('body').style.backgroundColor = '#ffdddd';
+                  }
+                });
+
+                // ----------------------------------
+
+                // Listening for the envy event to update if that reaction is active or not
+                socket.on('envy', (data) => 
+                {
+                  // If the envy reaction is not active
+                  if (data.active === false)
+                  {
+                        envyActive = false;
+                        activeReaction = false;
+
+                        document.querySelector('#envy').style.backgroundColor = '#c4f9c3';
+                        document.querySelector('#envy').style.boxShadow = '5px 9px #8fb68e';
+                        document.querySelector('#envy').style.transform = 'translateX(0px) translateY(0px)';
+                  }
+                  // If the envy reaction is active
+                  else
+                  {
+                        envyActive = true;
+
+                        document.querySelector('#envy').style.backgroundColor = '#a0fb9f';
+                        document.querySelector('#envy').style.boxShadow = '2px 6px #8fb68e';
+                        document.querySelector('#envy').style.transform = 'translateX(3px) translateY(3px)';
+                  }
+                });
+
+                // ----------------------------------
+
+                // Listening for the happy event to update if that reaction is active or not
+                socket.on('happy', (data) => 
+                {
+                  // If the happy reaction is not active
+                  if (data.active === false)
+                  {
+                        happyActive = false;
+                        activeReaction = false;
+
+                        document.querySelector('#happy').style.backgroundColor = '#f4fea4';
+                        document.querySelector('#happy').style.boxShadow = '5px 9px #afb775';
+                        document.querySelector('#happy').style.transform = 'translateX(0px) translateY(0px)';
+                  }
+                  // If the happy reaction is active
+                  else
+                  {
+                        happyActive = true;
+
+                        document.querySelector('#happy').style.backgroundColor = '#e7f86d';
+                        document.querySelector('#happy').style.boxShadow = '2px 6px #afb775';
+                        document.querySelector('#happy').style.transform = 'translateX(3px) translateY(3px)';
+                  }
+                });
+
+                // ----------------------------------
+
+                // Listening for the angry event to update if that reaction is active or not
+                socket.on('angry', (data) => 
+                {
+                  // If the angry reaction is not active
+                  if (data.active === false)
+                  {
+                        angryActive = false;
+                        activeReaction = false;
+
+                        document.querySelector('#angry').style.backgroundColor = '#f9c3c3';
+                        document.querySelector('#angry').style.boxShadow = '5px 9px #c29898';
+                        document.querySelector('#angry').style.transform = 'translateX(0px) translateY(0px)';
+                  }
+                  // If the angry reaction is active
+                  else
+                  {
+                        angryActive = true;
+
+                        document.querySelector('#angry').style.backgroundColor = '#fda9a9';
+                        document.querySelector('#angry').style.boxShadow = '2px 6px #c29898';
+                        document.querySelector('#angry').style.transform = 'translateX(3px) translateY(3px)';
+                  }
+                });
+
+                // ----------------------------------
+
+                // Listening for the sad event to update if that reaction is active or not
+                socket.on('sad', (data) => 
+                {
+                  // If the sad reaction is not active
+                  if (data.active === false)
+                  {
+                        sadActive = false;
+                        activeReaction = false;
+
+                        document.querySelector('#sad').style.backgroundColor = '#c3ccf9';
+                        document.querySelector('#sad').style.boxShadow = '5px 9px #8e95b6';
+                        document.querySelector('#sad').style.transform = 'translateX(0px) translateY(0px)';
+                  }
+                  // If the sad reaction is active
+                  else
+                  {
+                        sadActive = true;
+
+                        document.querySelector('#sad').style.backgroundColor = '#a5b2f4';
+                        document.querySelector('#sad').style.boxShadow = '2px 6px #8e95b6';
+                        document.querySelector('#sad').style.transform = 'translateX(3px) translateY(3px)';
+                  }
+                });
+
+                // Other event listeners ----------------------------------------------------------------------------------------------
+                // When socket.io edited the style, :hover stops working
+
+                // Event listeners for envy button for when mouse is hovered over
+                document.querySelector('#envy').addEventListener('mouseover', function()
+                {
+                    if (envyActive === false && activeReaction === false)
+                    {
+                        document.querySelector('#envy').style.backgroundColor = '#a0fb9f';
+                    }
+                });
+
+                document.querySelector('#envy').addEventListener('mouseout', function()
+                {
+                    if (envyActive === false && activeReaction === false)
+                    {
+                        document.querySelector('#envy').style.backgroundColor = '#c4f9c3';
+                    }
+                });
+
+                // ----------------------------------
+
+                // Event listeners for happy button for when mouse is hovered over
+                document.querySelector('#happy').addEventListener('mouseover', function()
+                {
+                    if (happyActive === false && activeReaction === false)
+                    {
+                        document.querySelector('#happy').style.backgroundColor = '#e7f86d';
+                    }
+                });
+
+                document.querySelector('#happy').addEventListener('mouseout', function()
+                {
+                    if (happyActive === false && activeReaction === false)
+                    {
+                        document.querySelector('#happy').style.backgroundColor = '#f4fea4';
+                    }
+                });
+
+                // ----------------------------------
+
+                // Event listeners for angry button for when mouse is hovered over
+                document.querySelector('#angry').addEventListener('mouseover', function()
+                {
+                    if (angryActive === false && activeReaction === false)
+                    {
+                        document.querySelector('#angry').style.backgroundColor = '#fda9a9';
+                    }
+                });
+
+                document.querySelector('#angry').addEventListener('mouseout', function()
+                {
+                    if (angryActive === false && activeReaction === false)
+                    {
+                        document.querySelector('#angry').style.backgroundColor = '#f9c3c3';
+                    }
+                });
+
+                // ----------------------------------
+
+                // Event listeners for sad button for when mouse is hovered over
+                document.querySelector('#sad').addEventListener('mouseover', function()
+                {
+                    if (sadActive === false && activeReaction === false)
+                    {
+                        document.querySelector('#sad').style.backgroundColor = '#a5b2f4';
+                    }
+                });
+
+                document.querySelector('#sad').addEventListener('mouseout', function()
+                {
+                    if (sadActive === false && activeReaction === false)
+                    {
+                        document.querySelector('#sad').style.backgroundColor = '#c3ccf9';
+                    }
+                });
+            });
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,103 @@
+/* Style for home screen */
+
+/* Background of screen */
+body
+{
+    background-image: linear-gradient(to right, #f9c3c3, #fff8fc);
+}
+
+/* Title style */
+h1
+{
+    font-family: "Lucida Console", "Courier New", monospace;
+    letter-spacing: 1.5px;
+    font-size: 40px;
+    color: #4f4f4f;
+}
+
+#title
+{
+    margin: 0;
+    position: absolute;
+    top: 20%;
+    width: 100%;
+    text-align: center;
+}
+
+/* Positioning to the middle of the right side of screen */
+#right
+{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 60%;
+}
+
+/* Positioning to the middle of the left side of screen */
+#left
+{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 20%;
+}
+
+/* General button style */
+button
+{
+    display: block;
+    width: 250px;
+    height: 125px;
+    font-size: 30px;
+    font-family: "Lucida Console", "Courier New", monospace;
+    letter-spacing: 1.5px;
+    padding: 14px 20px;
+    margin: 0px 10px 8px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+button:active 
+{
+    transform: translateX(3px) translateY(3px);
+}
+
+/* Brain button style */
+#brain
+{
+    background-color: #f9c3c3;
+    color: #fff8fc;
+    border: 0px;
+    box-shadow: 5px 9px #d7a9a9;
+}
+
+#brain:hover
+{
+    background-color: #febcbc;
+}
+
+#brain:active
+{
+    background-color: #febcbc;
+    box-shadow: 2px 6px #d7a9a9;
+}
+
+/* Heart button style */
+#heart
+{
+    background-color: #fff8fc;
+    color: #f9c3c3;
+    border: 0px;
+    box-shadow: 5px 9px #c8c2c5;
+}
+
+#heart:hover
+{
+    background-color: #ffffff
+}
+
+#heart:active
+{
+    background-color: #ffffff;
+    box-shadow: 2px 6px #c8c2c5;
+}

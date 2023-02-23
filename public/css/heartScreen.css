@@ -1,0 +1,180 @@
+/* Style for heart screen */
+
+/* Background of screen */
+body
+{
+    background-color: #fff8fc;
+}
+
+/* Style for description text */
+#description
+{
+    width: 40%;
+    margin: 0;
+    position: absolute;
+    top: 15%;
+    left: 5%;
+    font-family: "Lucida Console", "Courier New", monospace;
+    letter-spacing: 1.5px;
+    color: #4f4f4f;
+    line-height: 25px;
+    font-size: 12px;
+}
+
+/* Style of the "Ready Heart" text */
+#heartReady
+{
+    display: inline;
+    float: left;
+    margin: 0;
+    padding-left: 20%;
+    color: #4f4f4f5b;
+}
+
+/* Style of the "Ready Brain" text */
+#brainReady
+{
+    display: inline;
+    float: right;
+    margin: 0;
+    padding-right: 20%;
+    color: #4f4f4f5b;
+}
+
+/* Style of the senerio text container */
+#scenerio
+{
+    display: none;
+}
+
+/* Style of the time container */
+#timeContainer
+{
+    padding-top: 5px;
+
+    display: none;
+}
+
+/* Style of the winner text container */
+#winnerContainer
+{
+    padding-top: 40px;
+
+    display: none;
+}
+
+/* Style of the ready text ("Ready Heart" and "Ready Brain") container */
+#ready
+{
+    display: block;
+}
+
+/* General button style */
+button 
+{
+    border-radius: 50%;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 14px 20px;
+    margin: 0px 10px 8px 10px;
+    cursor: pointer;
+    border: 0px;
+}
+
+/* Envy button style */
+#envyButton
+{
+    margin: 0;
+    width: 10%;
+    height: 20%;
+    position: absolute;
+    top: 15%;
+    left: 55%;
+}
+
+#envy
+{
+    background-color: #c4f9c3;
+    box-shadow: 5px 9px #8fb68e;
+}
+
+/* Angry button style */
+#angryButton
+{
+    margin: 0;
+    width: 10%;
+    height: 20%;
+    position: absolute;
+    top: 65%;
+    left: 55%;
+}
+
+#angry
+{
+    background-color: #f9c3c3;
+    box-shadow: 5px 9px #c29898;
+}
+
+/* Happy button style */
+#happyButton
+{
+    margin: 0;
+    width: 10%;
+    height: 20%;
+    position: absolute;
+    top: 15%;
+    left: 80%;
+}
+
+#happy
+{
+    background-color: #f4fea4;
+    box-shadow: 5px 9px #afb775;
+}
+
+/* Sad button style */
+#sadButton
+{
+    margin: 0;
+    width: 10%;
+    height: 20%;
+    position: absolute;
+    top: 65%;
+    left: 80%;
+}
+
+#sad
+{
+    background-color: #c3ccf9;
+    box-shadow: 5px 9px #8e95b6;
+}
+
+/* Generation button style */
+#generateButton
+{
+    margin: 0;
+    width: 10%;
+    height: 20%;
+    position: absolute;
+    top: 40%;
+    left: 68%;
+}
+
+#generate
+{
+    background-color: #ebebeb;
+    box-shadow: 5px 9px #ababab;
+}
+
+#generate:hover
+{
+    background-color: #d8d8d8;
+}
+
+#generate:active
+{
+    transform: translateX(3px) translateY(3px);
+    background-color: #d8d8d8;
+    box-shadow: 2px 6px #ababab;
+}
